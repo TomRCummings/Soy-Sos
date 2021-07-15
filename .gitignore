@@ -1,0 +1,4 @@
+/sysroot
+/isodir
+grub-test.sh
+qemu.sh
