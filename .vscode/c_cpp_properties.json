@@ -1,0 +1,30 @@
+{
+    "env": {
+        "myDefaultIncludePath": [
+            "${workspaceFolder}/kernel/include/**",
+            "${workspaceFolder}/libc/include/**"
+        ],
+        "myCompilerPath": ""
+    },
+    "configurations": [
+        {
+            "name": "WSL",
+            "intelliSenseMode": "gcc-x86",
+            "includePath": [
+                "${workspaceFolder}/kernel/include/**",
+                "${workspaceFolder}/libc/include/**"
+            ],
+            "compilerPath": "/home/ryan/opt/cross/bin/i686-elf-gcc",
+            "cStandard": "c89",
+            "cppStandard": "c++98",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            }
+        }
+    ],
+    "version": 4
+}

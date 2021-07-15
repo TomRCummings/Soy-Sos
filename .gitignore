@@ -2,3 +2,4 @@
 /isodir
 grub-test.sh
 qemu.sh
+*.iso
