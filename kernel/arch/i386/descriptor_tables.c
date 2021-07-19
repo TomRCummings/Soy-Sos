@@ -5,6 +5,8 @@ extern void _gdt_flush(uint32_t);
 extern void _idt_set(uint32_t);
 
 extern void _isr_wrapper(void);
+extern void _com1_wrapper(void);
+extern void _com2_wrapper(void);
 
 static void init_gdt(void);
 static void gdt_set_entry(int32_t, uint32_t, uint32_t, uint8_t, uint8_t);
@@ -41,6 +43,8 @@ static void init_idt() {
 
     //Set IDT entries here!
     idt_set_entry(200, (uint32_t)&_isr_wrapper, 0x8, 1, 0, 0, 0xE);
+    idt_set_entry(0x24, (uint32_t)&_com1_wrapper, 0x8, 1, 0, 0, 0xE);
+    idt_set_entry(0x23, (uint32_t)&_com2_wrapper, 0x8, 1, 0, 0, 0xE);
 
     _idt_set((uint32_t)&idt_ptr);
 }

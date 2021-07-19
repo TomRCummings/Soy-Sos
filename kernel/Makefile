@@ -38,6 +38,7 @@ $(KERNEL_OBJS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
 $(ARCHDIR)/isr_wrapper.o \
+$(ARCHDIR)/com_wrapper.o \
 
 LINK_LIST=\
 $(LDFLAGS) \
@@ -48,6 +49,7 @@ $(LIBS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
 $(ARCHDIR)/isr_wrapper.o \
+$(ARCHDIR)/com_wrapper.o \
 
 .PHONY: all clean install install-headers install-kernel
 .SUFFIXES: .o .c .S
