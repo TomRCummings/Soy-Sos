@@ -2,6 +2,12 @@
 #include <kernel/io.h>
 #include <kernel/PIC.h>
 
+#include <limits.h>
+#include <stdbool.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+
 #define OCW1 0x021
 
 #define COM1 0x3F8
@@ -75,10 +81,82 @@ int is_transmit_empty(uint16_t port) {
 
 // TODO: Implement these with dynamic buffers so they are non-blocking.
 
-void send_data(uint16_t port, char * buffer, int length) {
-    for (int i = 0; i < length; i++) {
-        send_char(port, buffer[i]);
+static bool send_data(uint16_t port, const char * data, size_t length) {
+    for (size_t i = 0; i < length; i++) {
+        if (data[i] == -1) {
+            return false;
+        } else {
+            send_char(port, data[i]);
+        }
     }
+    return true;
+}
+
+int serial_print(uint16_t port, const char* restrict format, ...) {
+	va_list parameters;
+	va_start(parameters, format);
+
+	int written = 0;
+
+	while (*format != '\0') {
+		size_t maxrem = INT_MAX - written;
+
+		if (format[0] != '%' || format[1] == '%') {
+			if (format[0] == '%')
+				format++;
+			size_t amount = 1;
+			while (format[amount] && format[amount] != '%')
+				amount++;
+			if (maxrem < amount) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			if (!send_data(port, format, amount))
+				return -1;
+			format += amount;
+			written += amount;
+			continue;
+		}
+
+		const char* format_begun_at = format++;
+
+		if (*format == 'c') {
+			format++;
+			char c = (char) va_arg(parameters, int /* char promotes to int */);
+			if (!maxrem) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			if (!send_data(port, &c, sizeof(c)))
+				return -1;
+			written++;
+		} else if (*format == 's') {
+			format++;
+			const char* str = va_arg(parameters, const char*);
+			size_t len = strlen(str);
+			if (maxrem < len) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			if (!send_data(port, str, len))
+				return -1;
+			written += len;
+		} else {
+			format = format_begun_at;
+			size_t len = strlen(format);
+			if (maxrem < len) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			if (!send_data(port, format, len))
+				return -1;
+			written += len;
+			format += len;
+		}
+	}
+
+	va_end(parameters);
+	return written;
 }
 
 void send_char(uint16_t port, char char_to_send) {

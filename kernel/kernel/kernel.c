@@ -15,6 +15,7 @@ void kernel_main(void) {
 	initialize_PICs(DEFAULT_PIC_IRQ);
 
 	if (enable_serial_port()) {
-		send_data(0x3F8, "Hello World!\n", 13);
+		printf("Serial port intialized!");
+		serial_print(0x3F8, "Hello World!\n");
 	}
 }
