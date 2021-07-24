@@ -37,7 +37,7 @@ $(ARCHDIR)/crtbegin.o \
 $(KERNEL_OBJS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-$(ARCHDIR)/isr_wrapper.o \
+$(ARCHDIR)/interrupt.o \
 $(ARCHDIR)/com_wrapper.o \
 
 LINK_LIST=\
@@ -48,7 +48,7 @@ $(KERNEL_OBJS) \
 $(LIBS) \
 $(ARCHDIR)/crtend.o \
 $(ARCHDIR)/crtn.o \
-$(ARCHDIR)/isr_wrapper.o \
+$(ARCHDIR)/interrupt.o \
 $(ARCHDIR)/com_wrapper.o \
 
 .PHONY: all clean install install-headers install-kernel

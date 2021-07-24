@@ -7,7 +7,10 @@
 
 #define DEFAULT_PIC_IRQ 0x20
 
+extern bool serial_port_enabled = false;
+
 void kernel_main(void) {
+
 	init_descriptor_tables();
 	terminal_initialize();
 	printf("Descriptor tables and terminal initialized!\n");
@@ -15,7 +18,12 @@ void kernel_main(void) {
 	initialize_PICs(DEFAULT_PIC_IRQ);
 
 	if (enable_serial_port()) {
-		printf("Serial port intialized!");
-		serial_print(0x3F8, "Hello World!\n");
+		serial_port_enabled = true;
+		printf("Serial port intialized!\n");
+		serial_print(0x3F8, "Serial port initialized!\n");
 	}
+
+	asm volatile ("int $0x3");
+	asm volatile ("int $0x4");
+
 }

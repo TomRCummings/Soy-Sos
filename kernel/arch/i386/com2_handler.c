@@ -7,7 +7,7 @@
 
 void com2_handler() {
     uint8_t com2_status = inb(0x2F8);
-    printf("COM2 handler triggered.\n");
+    //printf("COM2 handler triggered.\n");
 
     // TODO: Check serial buffer on file system. If data present
     // and the "transmitter holding register empty" is set, pop
