@@ -61,6 +61,29 @@ int printf(const char* restrict format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
+		} else if (*format == 'd') {
+			format++;
+			const int num = va_arg(parameters, int);
+			int remainder = num;
+			int remainder_div_ten = remainder/10;
+			int divisor = 1;
+			int quotient;
+			size_t len = 0;
+			while(divisor <= remainder_div_ten) {
+				divisor *= 10;
+				len++;
+			}
+			if (maxrem < len) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			while(divisor) {
+				quotient = remainder/divisor;
+				putchar(quotient + '0');
+				remainder %= divisor;
+				divisor /= 10;
+				written++;
+			}
 		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);
