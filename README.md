@@ -1,5 +1,4 @@
-## OScillator
-
+## Soy-Sos
 A simple learning kernel (and maybe OS one day). Currently targetting 32-bit x86 systems.
 
 # Author
