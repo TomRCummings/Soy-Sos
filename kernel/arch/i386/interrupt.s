@@ -1,8 +1,8 @@
 .macro ISR_NOERRCODE p
 .global _isr\p
 _isr\p:
-    pushl $0
-    pushl $\p
+    push $0
+    push $\p
     jmp isr_common_stub
 .endm
 
@@ -41,21 +41,15 @@ isr_common_stub:
     
     mov %ds, %ax
     push %eax
-    
+
     mov $0x10, %ax
     mov %ax, %ds
     mov %ax, %es
     mov %ax, %fs
     mov %ax, %gs
 
-    mov %esp, %eax # this is my attempt to pass the pointer to the registers_t struct to the function
-    add $68, %eax
-
-    push %eax
-
+    cld
     call isr_handler
-
-    pop %eax
 
     pop %eax
     mov %ax, %ds

@@ -23,7 +23,4 @@ void kernel_main(void) {
 		serial_print(0x3F8, "Serial port initialized!\n");
 	}
 
-	asm volatile ("int $0x3");
-	asm volatile ("int $0x4");
-
 }
