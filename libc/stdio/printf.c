@@ -1,7 +1,9 @@
 #include <limits.h>
+#include <stdint.h>
 #include <stdbool.h>
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 static bool print(const char* data, size_t length) {
@@ -10,6 +12,31 @@ static bool print(const char* data, size_t length) {
 		if (putchar(bytes[i]) == EOF)
 			return false;
 	return true;
+}
+
+static int printInt(int numToPrint, size_t maxrem) {
+	int remainder = numToPrint;
+	int remainder_div_ten = remainder/10;
+	int divisor = 1;
+	int quotient;
+	int written = 0;
+	size_t len = 0;
+	while(divisor <= remainder_div_ten) {
+		divisor *= 10;
+		len++;
+	}
+	if (maxrem < len) {
+		// TODO: Set errno to EOVERFLOW.
+		return -1;
+	}
+	while(divisor) {
+		quotient = remainder/divisor;
+		putchar(quotient + '0');
+		remainder %= divisor;
+		divisor /= 10;
+		written++;
+	}
+	return written;
 }
 
 int printf(const char* restrict format, ...) {
@@ -64,26 +91,51 @@ int printf(const char* restrict format, ...) {
 		} else if (*format == 'd') {
 			format++;
 			const int num = va_arg(parameters, int);
+
 			int remainder = num;
 			int remainder_div_ten = remainder/10;
 			int divisor = 1;
-			int quotient;
-			size_t len = 0;
+			size_t len = 1;
+
 			while(divisor <= remainder_div_ten) {
 				divisor *= 10;
 				len++;
 			}
+
 			if (maxrem < len) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-			while(divisor) {
-				quotient = remainder/divisor;
-				putchar(quotient + '0');
-				remainder %= divisor;
-				divisor /= 10;
-				written++;
+
+			char numHolder[33] = "000000000000000000000000000000000";
+			print(itoa(num, numHolder, 10), len);
+
+			written += len;
+
+		} else if (*format == 'X') {
+			format++;
+			const int num = va_arg(parameters, int);
+
+			int remainder = num;
+			int remainder_div_ten = remainder/16;
+			int divisor = 1;
+			size_t len = 1;
+
+			while(divisor <= remainder_div_ten) {
+				divisor *= 16;
+				len++;
 			}
+
+			if (maxrem < len) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+
+			char numHolder[33] = "000000000000000000000000000000000";
+			print("0x", 2);
+			print(itoa(num, numHolder, 16), len);
+
+			written += len;
 		} else {
 			format = format_begun_at;
 			size_t len = strlen(format);

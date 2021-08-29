@@ -1,5 +1,5 @@
 #include <kernel/serial_ports.h>
-#include <kernel/io.h>
+#include <kernel/in_out.h>
 #include <kernel/PIC.h>
 
 #include <limits.h>
