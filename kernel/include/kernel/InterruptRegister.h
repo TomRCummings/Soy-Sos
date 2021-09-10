@@ -1,3 +1,6 @@
+#ifndef _KERNEL_INTERRUPT_REGISTER_H
+#define _KERNEL_INTERRUPT_REGISTER_H
+
 #include <stdint.h>
 
 typedef struct registers {
@@ -6,3 +9,5 @@ typedef struct registers {
     uint32_t int_no, err_code;
     uint32_t eip, cs, eflags, esp, ss;
 } registers_t;
+
+#endif

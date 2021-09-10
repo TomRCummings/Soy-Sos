@@ -1,5 +1,5 @@
 
-#include <kernel/descriptor_tables.h>
+#include <kernel/DescriptorTables.h>
 
 extern void _gdt_flush(uint32_t);
 extern void _idt_set(uint32_t);

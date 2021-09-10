@@ -1,6 +1,5 @@
 #include <kernel/PIC.h>
-
-#include <kernel/in_out.h>
+#include <kernel/IO.h>
 
 #define PIC_1_ADDRESS 0x20
 #define PIC_2_ADDRESS 0xA0

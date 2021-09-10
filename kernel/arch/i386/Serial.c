@@ -1,5 +1,5 @@
-#include <kernel/serial_ports.h>
-#include <kernel/in_out.h>
+#include <kernel/Serial.h>
+#include <kernel/IO.h>
 #include <kernel/PIC.h>
 
 #include <limits.h>
@@ -12,8 +12,6 @@
 
 #define COM1 0x3F8
 #define COM2 0x2F8
-#define COM3 0x3E8
-#define COM4 0x2E8
 
 #define DEFAULT_BAUD_RATE 4800
 

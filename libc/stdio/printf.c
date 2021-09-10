@@ -132,7 +132,6 @@ int printf(const char* restrict format, ...) {
 			}
 
 			char numHolder[33] = "000000000000000000000000000000000";
-			print("0x", 2);
 			print(itoa(num, numHolder, 16), len);
 
 			written += len;

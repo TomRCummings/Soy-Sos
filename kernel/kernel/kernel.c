@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <kernel/multiboot.h>
-#include <kernel/tty.h>
-#include <kernel/descriptor_tables.h>
+#include <kernel/Multiboot.h>
+#include <kernel/TTY.h>
+#include <kernel/DescriptorTables.h>
 #include <kernel/PIC.h>
-#include <kernel/serial_ports.h>
+#include <kernel/Serial.h>
 
 #define DEFAULT_PIC_IRQ 0x20
 
@@ -25,7 +25,10 @@ void kernel_main(multiboot_info_t* mbd, unsigned int magic) {
 
 	for (int i = 0; i < mbd->mmap_length; i += sizeof(multiboot_memory_map_t)) {
 		multiboot_memory_map_t* mmmt = (multiboot_memory_map_t*) (mbd->mmap_addr + i);
-		printf("Start Addr: %X | Length: %X | Size: %X | Type: %d\n", mmmt->addr_low, mmmt->len_low, mmmt->size, mmmt->type);
+		//printf("Start Addr: %X | Length: %X | Size: %X | Type: %d\n", mmmt->addr_low, mmmt->len_low, mmmt->size, mmmt->type);
+		if (mmmt->type == MULTIBOOT_MEMORY_AVAILABLE) {
+			//parse_available_memory_map(mmmt);
+		}
 	}
 
 	init_descriptor_tables();

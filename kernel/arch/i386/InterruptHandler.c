@@ -1,5 +1,5 @@
-#include <kernel/isr.h>
-#include <kernel/in_out.h>
+#include <kernel/InterruptRegister.h>
+#include <kernel/IO.h>
 
 #include <stdio.h>
 #include <string.h>
