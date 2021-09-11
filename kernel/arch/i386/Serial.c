@@ -47,10 +47,10 @@ uint16_t lowest_available_port(void) {
 void initialize_port(uint16_t port) {
     // Call to PIC module to unmask COM IRQ
     uint8_t current_IMR = read_IMR(false);
-    if (port == COM1 || port == COM3) {
+    if (port == COM1) {
         current_IMR = current_IMR & 0xEF;
         set_OCW(1, current_IMR);
-    } else if (port == COM2 || port == COM3) {
+    } else if (port == COM2) {
         current_IMR = current_IMR & 0xF7;
         set_OCW(1, current_IMR);
     }
